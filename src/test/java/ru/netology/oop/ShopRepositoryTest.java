@@ -24,18 +24,29 @@ public class ShopRepositoryTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfInvalidId() {
+    public void shouldThrowNotFoundExceptionIfInvalidId() {
         ShopRepository repository = new ShopRepository();
         repository.add(product1);
         repository.add(product2);
         repository.add(product3);
         repository.add(product4);
-        Product[] expected = {product1, product2, product4};
 
         Assertions.assertThrows(NotFoundException.class, () -> {
             repository.remove(3333);
         });
     }
 
+    @Test
+    public void shouldThrowAlreadyExistsExceptionIfIdExists() {
+        ShopRepository repository = new ShopRepository();
+        repository.add(product1);
+        repository.add(product2);
+        repository.add(product3);
+        repository.add(product4);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repository.add(product1);
+        });
+    }
 
 }
